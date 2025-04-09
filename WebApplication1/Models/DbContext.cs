@@ -1,14 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-namespace Ecommerce.Models;
 
-#pragma warning disable CA1050 // Declare types in namespaces
-public class MyContext : DbContext
-#pragma warning restore CA1050 // Declare types in namespaces
+public class AppDbContext : DbContext 
 {
-    public MyContext(DbContextOptions<MyContext> options) : base(options)
-    {
-        
-    }
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Admin> Admins { get; set; }
     public DbSet<Product> Products { get; set; }
