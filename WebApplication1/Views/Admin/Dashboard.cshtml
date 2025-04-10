@@ -1,3 +1,5 @@
+@inject AppDbContext db
+
 @model AdminDashboardViewModel
 @{
     ViewBag.Title = "Admin Dashboard";
@@ -22,6 +24,8 @@
     <div class="tab-pane fade show active" id="customers" role="tabpanel">
         <h4>Customers</h4>
         <table class="table table-bordered">
+            <a href="/Customer/Index" class="btn btn-primary">Add Customers</a>
+        <a href="/Customer/Edit/1" class="btn btn-warning mt-2">Update Customers</a>
             <thead>
                 <tr>
                     <th>First Name</th>

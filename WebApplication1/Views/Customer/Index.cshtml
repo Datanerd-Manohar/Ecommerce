@@ -1,0 +1,33 @@
+@model List<Customer>
+@{
+    ViewData["Title"] = "Customers";
+}
+<h2>Customers</h2>
+<a href="/Customer/Add" class="btn btn-primary mb-3">Add Customer</a>
+<form method="post" asp-action="Delete">
+    <table class="table table-bordered">
+        <thread>
+        <tr>
+            <th>Select</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Area</th>
+            <th>Country</th>
+            <th>Actions</th>
+        </tr>
+        </thread>
+        @foreach (var customer in Model) {
+            <tr>
+                <td><input type="checkbox" name="selectedIds" value="@customer.Id" /></td>
+                <td>@customer.Firstname</td>
+                <td>@customer.Lastname</td>
+                <td>@customer.Area</td>
+                <td>@customer.Country</td>
+                <td>
+                    <a href="/Customer/Edit/@customer.Id">Edit</a>
+                </td>
+            </tr>
+        }
+    </table>
+    <button type="submit">Delete Selected</button>
+</form>
