@@ -6,7 +6,7 @@
 <a href="/Customer/Add" class="btn btn-primary mb-3">Add Customer</a>
 <form method="post" asp-action="Delete">
     <table class="table table-bordered">
-        <thread>
+        <thead>
         <tr>
             <th>Select</th>
             <th>First Name</th>
@@ -15,7 +15,7 @@
             <th>Country</th>
             <th>Actions</th>
         </tr>
-        </thread>
+        </thead>
         @foreach (var customer in Model) {
             <tr>
                 <td><input type="checkbox" name="selectedIds" value="@customer.Id" /></td>
@@ -24,10 +24,10 @@
                 <td>@customer.Area</td>
                 <td>@customer.Country</td>
                 <td>
-                    <a href="/Customer/Edit/@customer.Id">Edit</a>
+                    <a href="/Customer/Edit/@customer.Id" class="btn btn-warning btn-sm">Edit</a>
                 </td>
             </tr>
         }
     </table>
-    <button type="submit">Delete Selected</button>
+    <button type="submit" class="btn btn-danger">Delete</button>
 </form>

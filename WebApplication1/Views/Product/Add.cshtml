@@ -1,12 +1,11 @@
 @model Product
 
 @{
-    ViewData["Title"] = "Add Product";
+    ViewData["Title"] = "Add Products";
 }
 
-<h2>Add Product</h2>
+<h2>Add Products</h2>
 
-<!-- Show validation errors -->
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 <form asp-action="Add" method="post">
@@ -15,19 +14,22 @@
         <input asp-for="ProductName" class="form-control" />
         <span asp-validation-for="ProductName" class="text-danger"></span>
     </div>
+
     <div class="form-group">
         <label asp-for="Price"></label>
         <input asp-for="Price" class="form-control" />
         <span asp-validation-for="Price" class="text-danger"></span>
     </div>
+
     <div class="form-group">
         <label asp-for="Rating"></label>
         <input asp-for="Rating" class="form-control" />
         <span asp-validation-for="Rating" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-success">Save</button>
+
+    <button type="submit" class="btn btn-success mt-2">Save</button>
 </form>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
