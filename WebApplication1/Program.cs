@@ -10,7 +10,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("AppDbContext"),
-    new MySqlServerVersion(new Version(9, 2, 0)))); // adjust to your MySQL version
+    new MySqlServerVersion(new Version(9, 2, 0))));
 
 builder.Services.AddSession();
 

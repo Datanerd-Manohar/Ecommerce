@@ -18,17 +18,37 @@ public class OrdersController : Controller
         return View(orders);
     }
 
-    public IActionResult Details(int id)
+   public IActionResult EditOrder(int id)
     {
-        var order = db.Orders
-                      .Include(o => o.OrderItems)
-                      .ThenInclude(oi => oi.Product)
-                      .Include(o => o.Customer)
-                      .FirstOrDefault(o => o.Id == id);
-
-        if (order == null) return NotFound();
-        return View(order);
+    var order = db.Orders.Find(id);
+    if (order == null) return NotFound();
+    return View(order);
     }
+
+    [HttpPost]
+    public IActionResult EditOrder(Order updatedOrder)
+    {
+    if (ModelState.IsValid)
+    {
+        db.Orders.Update(updatedOrder);
+        db.SaveChanges();
+        return RedirectToAction("Dashboard");
+    }
+    return View(updatedOrder);
+    }
+
+    [HttpPost]
+    public IActionResult DeleteOrder(int id)
+    {
+    var order = db.Orders.Find(id);
+    if (order != null)
+    {
+        db.Orders.Remove(order);
+        db.SaveChanges();
+    }
+    return RedirectToAction("Dashboard");
+    }
+
 
     public IActionResult Delete(int id)
     {

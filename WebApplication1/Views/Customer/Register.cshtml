@@ -7,14 +7,41 @@
         <label>First Name</label>
         <input asp-for="Firstname" class="form-control" />
     </div>
+
     <div class="form-group">
         <label>Last Name</label>
         <input asp-for="Lastname" class="form-control" />
     </div>
+
+    <div class="form-group">
+        <label asp-for="Area"></label>
+        <input asp-for="Area" class="form-control" />
+        <span asp-validation-for="Area" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Postalcode"></label>
+        <input asp-for="Postalcode" class="form-control" />
+        <span asp-validation-for="Postalcode" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Country"></label>
+        <input asp-for="Country" class="form-control" />
+        <span asp-validation-for="Country" class="text-danger"></span>
+    </div>
+
     <div class="form-group">
         <label>Email</label>
         <input asp-for="Email" class="form-control" />
     </div>
+
+    <div class="form-group"></div>
+        <label asp-for="Phone"></label>
+        <input asp-for="Phone" class="form-control" />
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+
     <div class="form-group">
         <label>Password</label>
         <input asp-for="Password" type="password" class="form-control" />

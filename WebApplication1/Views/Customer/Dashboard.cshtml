@@ -1,7 +1,48 @@
-@model Customer
+@model CustomerDashboardViewModel
 
-<h2>Welcome, @Model.Firstname @Model.Lastname</h2>
-<p>Email: @Model.Email</p>
-<p>Country: @Model.Country</p>
+<h2>Welcome, @Model.Customer.Firstname!</h2>
 
-<a href="/Customer/Logout" class="btn btn-danger">Logout</a>
+<h3>Products</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var product in Model.Products)
+    {
+        <tr>
+            <td>@product.ProductName</td>
+            <td>@product.Price</td>
+            <td>
+                <form asp-action="PlaceOrder" method="post">
+                    <input type="hidden" name="productId" value="@product.ProductId" />
+                    <button type="submit" class="btn btn-success">Place Order</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<h3 class="mt-5">Your Orders</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var order in Model.Orders)
+    {
+        <tr>
+            <td>@order.ProductName</td>
+            <td>@order.TotalAmount</td>
+        </tr>
+    }
+    </tbody>
+</table>

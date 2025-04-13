@@ -79,25 +79,26 @@
     <div class="tab-pane fade" id="orders" role="tabpanel">
         <h4>Orders</h4>
         <table class="table table-bordered">
-        <a href="/Orders/Index" class="btn btn-primary">View Orders</a>
     </div>
             <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th>Order Date</th>
-                    <th>Customer ID</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var o in Model.Orders)
-                {
-                    <tr>
-                        <td>@o.Id</td>
-                        <td>@o.OrderDate.ToShortDateString()</td>
-                        <td>@o.CustomerId</td>
-                    </tr>
-                }
-            </tbody>
+        <tr>
+            <th>Customer Id</th>
+            <th>Product Id</th>
+            <th>Product Name</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var order in Model.Orders)
+    {
+        <tr>
+            <td>@order.CustomerId</td>
+            <td>@order.ProductId</td>
+            <td>@order.ProductName</td>
+            <td>@order.TotalAmount</td>
+        </tr>
+    }
+    </tbody>
         </table>
     </div>
 </div>

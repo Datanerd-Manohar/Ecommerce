@@ -56,4 +56,37 @@ public class AdminController : Controller
         HttpContext.Session.Clear();
         return RedirectToAction("Login");
     }
+
+    public IActionResult EditOrder(int id)
+    {
+    var order = _context.Orders.Find(id);
+    if (order == null) return NotFound();
+    return View(order);
+    }
+
+    [HttpPost]
+    public IActionResult EditOrder(Order updatedOrder)
+    {
+    if (ModelState.IsValid)
+    {
+        _context.Orders.Update(updatedOrder);
+        _context.SaveChanges();
+        return RedirectToAction("Dashboard");
+    }
+    return View(updatedOrder);
+
+    }
+
+    [HttpPost]
+    public IActionResult DeleteOrder(int id)
+    {
+    var order = _context.Orders.Find(id);
+    if (order != null)
+    {
+        _context.Orders.Remove(order);
+        _context.SaveChanges();
+    }
+    return RedirectToAction("Dashboard");
+    }
+
 }

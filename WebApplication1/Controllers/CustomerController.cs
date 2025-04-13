@@ -20,6 +20,12 @@ public class CustomerController : Controller {
             db.SaveChanges();
             return RedirectToAction("Login");
         }
+
+    var errors = ModelState.Values.SelectMany(v => v.Errors);
+    foreach (var error in errors)
+    {
+        Console.WriteLine("Validation Error: " + error.ErrorMessage);
+    }
         return View(customer);
     }
 
@@ -44,12 +50,22 @@ public class CustomerController : Controller {
 
     public IActionResult Dashboard()
     {
-        var email = HttpContext.Session.GetString("CustomerEmail");
-        if (email == null) return RedirectToAction("Login");
+    var email = HttpContext.Session.GetString("CustomerEmail");
+    if (email == null) return RedirectToAction("Login");
 
-        var customer = db.Customers.FirstOrDefault(c => c.Email == email);
-        return View(customer);
+    var customer = db.Customers.FirstOrDefault(c => c.Email == email);
+    if (customer == null) return RedirectToAction("Login");
+
+    var viewModel = new CustomerDashboardViewModel
+    {
+        Customer = customer,
+        Products = db.Products.ToList(),
+        Orders = db.Orders.Where(o => o.CustomerId == customer.Id).ToList()
+    };
+
+    return View(viewModel);
     }
+
 
     public IActionResult Logout()
     {
@@ -98,4 +114,31 @@ public class CustomerController : Controller {
         db.SaveChanges();
         return RedirectToAction("Index");
     }
+
+
+    [HttpPost]
+    public IActionResult PlaceOrder(int productId)
+    {
+    var email = HttpContext.Session.GetString("CustomerEmail");
+    var customer = db.Customers.FirstOrDefault(c => c.Email == email);
+    var product = db.Products.FirstOrDefault(p => p.ProductId == productId);
+
+    if (customer == null || product == null) return RedirectToAction("Dashboard");
+
+    var order = new Order
+    {
+        CustomerId = customer.Id,
+        ProductId = product.ProductId,
+        ProductName = product.ProductName,
+        TotalAmount = product.Price,
+        OrderDate = DateTime.Now
+
+    };
+
+    db.Orders.Add(order);
+    db.SaveChanges();
+
+    return RedirectToAction("Dashboard");
+    }
+
 }

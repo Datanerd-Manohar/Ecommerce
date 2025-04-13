@@ -8,7 +8,6 @@ public class AppDbContext : DbContext
     public DbSet<Admin> Admins { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<Order> Orders { get; set; }
-    public DbSet<OrderItem> OrderItems { get; set; }
     public DbSet<Cart> Carts { get; set; }
     public DbSet<Feedback> Feedbacks { get; set; }
 }
