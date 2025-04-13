@@ -5,6 +5,59 @@ public class CustomerController : Controller {
 
     public CustomerController(AppDbContext context) => db = context;
 
+    
+    public IActionResult Register()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Register(Customer customer)
+    {
+        if (ModelState.IsValid)
+        {
+            db.Customers.Add(customer);
+            db.SaveChanges();
+            return RedirectToAction("Login");
+        }
+        return View(customer);
+    }
+
+    public IActionResult Login()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Login(string email, string password)
+    {
+        var customer = db.Customers.FirstOrDefault(c => c.Email == email && c.Password == password);
+        if (customer != null)
+        {
+            HttpContext.Session.SetString("CustomerEmail", email);
+            return RedirectToAction("Dashboard");
+        }
+
+        ViewBag.Message = "Invalid credentials";
+        return View();
+    }
+
+    public IActionResult Dashboard()
+    {
+        var email = HttpContext.Session.GetString("CustomerEmail");
+        if (email == null) return RedirectToAction("Login");
+
+        var customer = db.Customers.FirstOrDefault(c => c.Email == email);
+        return View(customer);
+    }
+
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Remove("CustomerEmail");
+        return RedirectToAction("Login");
+    }
+    
+    
     public IActionResult Index() => View(db.Customers.ToList());
 
     public IActionResult Add() => View();

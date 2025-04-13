@@ -12,6 +12,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("AppDbContext"),
     new MySqlServerVersion(new Version(9, 2, 0)))); // adjust to your MySQL version
 
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -26,6 +27,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
+app.UseSession();
 
 app.UseAuthorization();
 
@@ -33,7 +35,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Admin}/{action=login}/{id?}")
+    pattern: "{controller=Customer}/{action=Login}/{id?}")
     .WithStaticAssets();
 
 

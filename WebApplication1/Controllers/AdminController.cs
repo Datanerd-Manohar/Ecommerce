@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-namespace WebApplication1.Controllers;
+using WebApplication1.Models;
+using System.Linq;
 
 public class AdminController : Controller
 {
@@ -10,23 +11,49 @@ public class AdminController : Controller
         _context = context;
     }
 
-    [HttpGet]
     public IActionResult Login()
     {
-        return RedirectToAction("Dashboard", "Admin");
+        return View();
     }
 
     [HttpPost]
-    public IActionResult Login(string email, string password)
+    public IActionResult Login(Admin admin)
     {
-        var admin = _context.Admins.FirstOrDefault(a => a.Email == email && a.Password == password);
-        if (admin != null)
+        var existingAdmin = _context.Admins
+            .FirstOrDefault(a => a.Email == admin.Email && a.Password == admin.Password);
+
+        if (existingAdmin != null)
         {
-            // You can set session or authentication logic here
-            return RedirectToAction("Dashboard"); // Redirect to your admin dashboard
+            HttpContext.Session.SetString("AdminEmail", existingAdmin.Email);
+            return RedirectToAction("Dashboard");
         }
 
-        ViewBag.Error = "Invalid email or password.";
-        return View();
+        TempData["Error"] = "Invalid email or password.";
+        return View(admin);
+    }
+
+    
+    public IActionResult Dashboard()
+    {
+    var email = HttpContext.Session.GetString("AdminEmail");
+    if (email == null) return RedirectToAction("Login");
+
+    var admin = _context.Admins.FirstOrDefault(a => a.Email == email);
+
+    var viewModel = new AdminDashboardViewModel
+    {
+        Admin = admin,
+        Customers = _context.Customers.ToList(),
+        Products = _context.Products.ToList(),
+        Orders = _context.Orders.ToList()
+    };
+
+    return View(viewModel);
+    }
+
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Login");
     }
 }
