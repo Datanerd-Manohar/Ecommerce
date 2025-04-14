@@ -1,7 +1,9 @@
 @model CustomerDashboardViewModel
 
 <h2>Welcome, @Model.Customer.Firstname!</h2>
-
+<form asp-action="Logout" method="post">
+    <button type="submit" class="btn btn-danger mt-2">Logout</button>
+</form>
 <h3>Products</h3>
 <table class="table">
     <thead>
